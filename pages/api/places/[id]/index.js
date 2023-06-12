@@ -12,6 +12,15 @@ export default async function handler(request, response) {
     response.status(200).json(placeToDelete);
   }
 
+  if (request.method === "PATCH") {
+    const placeToUpdate = await Place.findByIdAndUpdate(id, {
+      $set: request.body,
+    });
+    // Find the joke by its ID and update the content that is part of the request body!
+    response.status(200).json(placeToUpdate);
+    // If successful, you'll receive an OK status code.
+  }
+
   if (request.method === "GET") {
     const places = await Place.findById(id);
 
@@ -40,14 +49,6 @@ export default async function handler(request, response) {
     //   `/api/places/${id}`,
     //   sendRequest
     // );
-
-    if (request.method === "PATCH") {
-      const placeToUpdate = await Place.findByIdAndUpdate(id, {
-        $set: request.body,
-      });
-
-      response.status(200).json(placeToUpdate);
-    }
 
     if (!id) {
       return;

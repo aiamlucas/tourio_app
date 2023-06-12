@@ -12,27 +12,42 @@ export default function EditPage() {
   const { data: place, isLoading, error } = useSWR(`/api/places/${id}`);
 
   async function editPlace(place) {
-    const { trigger, isMutating } = useSWRMutation(
-      `/api/places/${id}`,
-      sendRequest
-    );
-
-    await trigger(placeData);
-
-    async function sendRequest(url, { arg }) {
-      const response = await fetch(url, {
-        methot: "PATCH",
-        body: JSON.stringify(arg),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        await response.json();
-      } else {
-        console.error(`Error: ${response.status}`);
-      }
+    console.log("update me!!");
+    const response = await fetch(`/api/places/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(place),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    // This syntax follows that of any regular HTTP response.
+    // Note the arg object that is passed as part of the response body.
+    if (response.ok) {
+      await response.json();
+    } else {
+      console.error(`Error: ${response.status}`);
     }
+    // const { trigger, isMutating } = useSWRMutation(
+    //   `/api/places/${id}`,
+    //   sendRequest
+    // );
+
+    // await trigger(placeData);
+
+    // async function sendRequest(url, { arg }) {
+    //   const response = await fetch(url, {
+    //     method: "PATCH",
+    //     body: JSON.stringify(arg),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+    //   if (response.ok) {
+    //     await response.json();
+    //   } else {
+    //     console.error(`Error: ${response.status}`);
+    //   }
+    // }
 
     // const response = await fetch("/api/places", {
     //   method: "PATCH",
