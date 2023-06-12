@@ -18,12 +18,6 @@ export default function CreatePlacePage() {
   const places = useSWR("/api/places");
 
   async function addPlace(place) {
-    // event.preventDefault();
-
-    // const formData = new FormData(event.target);
-    // const placeData = Object.fromEntries(formData);
-    // console.log("placeData:", placeData);
-
     const response = await fetch("/api/places", {
       method: "POST",
       headers: {
@@ -33,13 +27,8 @@ export default function CreatePlacePage() {
     });
 
     if (response.ok) {
-      // If our attempt at posting our joke is a success, we proceed here.
       await response.json();
-      // At this point, the promise of response has resolved.
       places.mutate();
-      // Now we're notifying swr that our data has been mutated, which will trigger a rerender.
-      // If we don't include this line, the page won't automatically refresh and our submitted joke won't be immediately visible.
-      // places.target.reset();
     } else {
       console.error(`Error: ${response.status}`);
     }
